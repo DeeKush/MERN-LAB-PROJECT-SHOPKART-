@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+:root { font-family: 'Manrope', sans-serif; font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+:root { --mono: 'DM Mono', monospace; }
+body { margin: 0; min-width: 320px; }
