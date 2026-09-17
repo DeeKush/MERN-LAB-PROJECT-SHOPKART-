@@ -16,4 +16,13 @@ export const logoutCustomer = async () => {
   return response.data
 }
 
+export const getProducts = async ({ search, category } = {}) => {
+  const response = await api.get('/products', { params: { search, category } })
+  return response.data
+}
+
+export const getProductById = async (id) => {
+  const response = await api.get(`/products/${id}`)
+  return response.data.product
+}
 
