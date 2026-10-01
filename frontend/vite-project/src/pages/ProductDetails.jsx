@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import { getProductById } from '../services/api'
+import { useCart } from '../context/CartContext'
 
 const LOW_STOCK_THRESHOLD = 10
 
@@ -11,6 +12,8 @@ function ProductDetails() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
   const [added, setAdded] = useState(false)
+  const [cartError, setCartError] = useState('')
+  const { addToCart } = useCart()
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -29,9 +32,16 @@ function ProductDetails() {
     loadProduct()
   }, [id])
 
-  const handleAddToCart = () => {
-    setAdded(true)
-    setTimeout(() => setAdded(false), 1600)
+  const handleAddToCart = async () => {
+    setCartError('')
+
+    try {
+      await addToCart(product._id)
+      setAdded(true)
+      setTimeout(() => setAdded(false), 1600)
+    } catch (err) {
+      setCartError(err.response?.status === 401 ? 'Please log in to add to cart.' : 'Could not add to cart.')
+    }
   }
 
   return (
@@ -70,10 +80,13 @@ function ProductDetails() {
                 <button
                   className={`button button-primary${added ? ' added' : ''}`}
                   type="button"
+                  disabled={product.stock === 0}
                   onClick={handleAddToCart}
                 >
                   {added ? 'Added ✓' : 'Add to Cart'}
                 </button>
+
+                {cartError && <p className="cart-error">{cartError}</p>}
               </div>
             </article>
           </>

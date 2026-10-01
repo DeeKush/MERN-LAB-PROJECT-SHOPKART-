@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { getCurrentCustomer, logoutCustomer } from '../services/api'
+import { useCart } from '../context/CartContext'
 
 function Navbar() {
   const [customer, setCustomer] = useState(null)
   const [checked, setChecked] = useState(false)
   const navigate = useNavigate()
+  const { totalItems } = useCart()
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -56,6 +58,20 @@ function Navbar() {
               <circle cx="11" cy="11" r="7" />
               <path d="M21 21l-4.3-4.3" strokeLinecap="round" />
             </svg>
+          </Link>
+
+          <Link className="icon-btn" to="/wishlist" aria-label="Wishlist" title="Wishlist">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z" strokeLinejoin="round" />
+            </svg>
+          </Link>
+
+          <Link className="icon-btn cart-icon-btn" to="/cart" aria-label="Cart" title="Cart">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M6 8h12l-1 12H7L6 8z" strokeLinejoin="round" />
+              <path d="M9 8V6a3 3 0 0 1 6 0v2" strokeLinecap="round" />
+            </svg>
+            {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
           </Link>
 
           {checked && (
