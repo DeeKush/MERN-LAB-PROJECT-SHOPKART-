@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
+import { addToWishlist, removeFromWishlist } from '../services/api'
 
 const LOW_STOCK_THRESHOLD = 10
 const DISCOUNT_RATE = 0.2
@@ -32,15 +33,28 @@ function ProductCard({ product, tag }) {
   const [added, setAdded] = useState(false)
   const [cartMessage, setCartMessage] = useState('')
 
-  const toggleWish = () => {
-    const list = readWishlist()
+  const toggleWish = async () => {
     const next = !wished
-    const updated = next
-      ? [...list, product._id]
-      : list.filter((id) => id !== product._id)
+    try {
+      if (next) {
+        await addToWishlist(product._id)
+      } else {
+        await removeFromWishlist(product._id)
+      }
+      setWished(next)
 
-    localStorage.setItem('wishlist', JSON.stringify(updated))
-    setWished(next)
+      const list = readWishlist()
+      const updated = next
+        ? [...list, product._id]
+        : list.filter((id) => id !== product._id)
+      localStorage.setItem('wishlist', JSON.stringify(updated))
+    } catch (err) {
+      if (err.response?.status === 401) {
+        alert("Please log in to add items to your wishlist.")
+      } else {
+        console.error("Could not update wishlist", err)
+      }
+    }
   }
 
   const handleAddToCart = async () => {

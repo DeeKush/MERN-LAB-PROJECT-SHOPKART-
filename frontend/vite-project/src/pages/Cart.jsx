@@ -83,7 +83,10 @@ function Cart() {
                 <span>Subtotal</span>
                 <span>₹{subtotal}</span>
               </p>
-              <Link className="button button-primary" to="/products">
+              <Link className="button button-primary" to="/checkout">
+                Proceed to Checkout
+              </Link>
+              <Link className="button button-quiet" to="/products">
                 Continue Shopping
               </Link>
             </aside>

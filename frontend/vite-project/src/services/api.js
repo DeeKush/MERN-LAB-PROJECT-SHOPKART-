@@ -61,3 +61,23 @@ export const removeFromCartApi = async (productId) => {
   return response.data
 }
 
+export const createPaymentOrder = async (payload) => {
+  const response = await api.post('/orders/create-payment-order', payload)
+  return response.data
+}
+
+export const verifyPayment = async (payload) => {
+  const response = await api.post('/orders/verify-payment', payload)
+  return response.data
+}
+
+export const getOrders = async () => {
+  const response = await api.get('/orders')
+  return response.data.orders
+}
+
+export const getOrderById = async (id) => {
+  const response = await api.get(`/orders/${id}`)
+  return response.data.order
+}
+
