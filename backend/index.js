@@ -20,10 +20,20 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+const allowedOrigins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    process.env.FRONTEND_URL,
+].filter(Boolean);
+
 app.use(cors({
-    origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
+    origin: allowedOrigins,
     credentials: true,
 }));
+
+app.get("/health", (_req, res) => {
+    res.status(200).json({ status: "ok" });
+});
 
 // Routes
 
@@ -66,7 +76,7 @@ mongoose
 
 // Server
 
-const PORT = 8088
+const PORT = process.env.PORT || 8088;
 
 app.listen(PORT, () => {
     console.log(`Server Started at ${PORT}`);
