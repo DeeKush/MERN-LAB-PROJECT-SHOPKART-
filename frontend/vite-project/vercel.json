@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://REPLACE-WITH-RENDER-SERVICE.onrender.com/:path*"
+      "destination": "https://mern-lab-project-shopkart-x0mo.onrender.com/:path*"
     },
     {
       "source": "/(.*)",
