@@ -19,4 +19,5 @@ pnpm-debug.log*
 
 # Local project notes and agent settings
 PROJECT_EXPLAINED.md
+VIVA_QUESTIONS.md
 .claude/
